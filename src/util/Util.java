@@ -572,12 +572,6 @@ public final class Util {
 		}
 	}
 
-	public static List<Pair<Character, Integer>> numberOfCharsInStringInSequence(String s) {
-		List<Pair<Character, Integer>> list = new ArrayList<>();
-
-		return list;
-	}
-
 	public static boolean equals(Object obj1, Object obj2) throws IllegalArgumentException, IllegalAccessException {
 		if (obj1 == obj2)
 			return true;
@@ -601,6 +595,31 @@ public final class Util {
 		for(T t : arr) {
 			list.add(t);
 		}
+	}
+	
+		public static List<Pair<Character, Integer>> numberOfEqualCharsInSequence(String s) {
+
+		if (s != null && s.length() < 1) {
+			throw new IllegalArgumentException();
+		}
+		List<Pair<Character, Integer>> list = new ArrayList<>();
+		
+		char lastChar = s.charAt(0);
+		int num = 1;
+		
+		for (int i = 1; i < s.length(); i++) {
+			if (lastChar == s.charAt(i)) {
+				num++;
+			} else {
+				list.add(new Pair<Character, Integer>(s.charAt(i - 1), num));
+				lastChar = s.charAt(i);
+				num = 1;
+			}
+		}
+		
+		list.add(new Pair<Character, Integer>(lastChar, num));
+
+		return list;
 	}
 
 }
