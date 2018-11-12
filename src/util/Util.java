@@ -578,18 +578,29 @@ public final class Util {
 		return list;
 	}
 
-	public static boolean equals(Object obj1, Object obj2) {
+	public static boolean equals(Object obj1, Object obj2) throws IllegalArgumentException, IllegalAccessException {
 		if (obj1 == obj2)
 			return true;
 		if (obj1.getClass() != obj2.getClass())
 			return false;
 		Class<?> clazz = obj1.getClass();
 		List<Field> fields = new ArrayList<>();
+		
+		addAll(fields, clazz.getDeclaredFields());
+		fields.forEach(f -> f.setAccessible(true));
+		
+		for(Field field : fields) {
+			if(!field.get(obj1).equals(field.get(obj2)))
+				return false;
+		}
+		
 		return true;
 	}
 	
 	public static<T> void addAll(List<T> list, T[] arr) {
-		
+		for(T t : arr) {
+			list.add(t);
+		}
 	}
 
 }
